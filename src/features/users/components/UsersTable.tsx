@@ -1,21 +1,42 @@
-import { useEffect, useState } from "react";
-import { User } from "../../types";
+import { useEffect } from "react";
+import { useUsers } from "../../../context/UsersContex";
 import { getUsers } from "../api/getUser";
 import { UserRow } from "./UserRow";
 import "./UsersTable.css";
-import { useUsers } from "../../../context/UsersContex";
 
 export function UsersTable() {
-  const { users, setUsers } = useUsers();
+  const { users, setUsers, isLoading, setIsLoading, error, setError } =
+    useUsers();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const users = await getUsers();
-      setUsers(users);
+      try {
+        const users = await getUsers();
+        setUsers(users);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        if (error instanceof Error) {
+          setError(error.message);
+        }
+      }
     };
 
     fetchUsers();
   }, []);
+
+  if (error) {
+    return (
+      <div>
+        <p>An error has occured: {error}</p>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    //display some sort of loading screen while fetching
+    return <p>Loading...</p>;
+  }
 
   return (
     <table>
