@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import "./UsersTable.css";
-import { getUsers } from "../api/getUser";
 import { User } from "../../types";
+import { getUsers } from "../api/getUser";
+import { UserRow } from "./UserRow";
+import "./UsersTable.css";
 
 export function UsersTable() {
   const [users, setUsers] = useState<User[]>([]);
@@ -14,6 +15,7 @@ export function UsersTable() {
 
     fetchUsers();
   }, []);
+
   return (
     <table>
       <tr>
@@ -23,14 +25,7 @@ export function UsersTable() {
         <th>Company</th>
       </tr>
       {users?.map((user) => {
-        return (
-          <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.address.city}</td>
-            <td>{user.company.name}</td>
-          </tr>
-        );
+        return <UserRow user={user} key={user.id} />;
       })}
     </table>
   );
