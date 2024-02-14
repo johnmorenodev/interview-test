@@ -3,9 +3,10 @@ import { User } from "../../types";
 import { getUsers } from "../api/getUser";
 import { UserRow } from "./UserRow";
 import "./UsersTable.css";
+import { useUsers } from "../../../context/UsersContex";
 
 export function UsersTable() {
-  const [users, setUsers] = useState<User[]>([]);
+  const { users, setUsers } = useUsers();
 
   useEffect(() => {
     const fetchUsers = async () => {
