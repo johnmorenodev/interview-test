@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Post, User } from "../features/types";
+import { Post, User } from "../features/users/types";
 import { getPostsByUserId } from "../features/users/api/getPostsByUserId";
 import { getUsers } from "../features/users/api/getUser";
 
@@ -25,7 +25,7 @@ interface UserContext {
   postError: string;
 }
 
-const INITIAL_USER_CONTEXT = {
+export const INITIAL_USER_CONTEXT = {
   users: [],
   setUsers: () => {},
   isLoading: true,

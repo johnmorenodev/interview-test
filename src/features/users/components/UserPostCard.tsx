@@ -1,4 +1,4 @@
-import { Post } from "../../types";
+import { Post } from "../types";
 
 export function UserPostCard({ post }: { post: Post }) {
   return (
