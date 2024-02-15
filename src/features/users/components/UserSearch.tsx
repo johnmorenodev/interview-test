@@ -1,4 +1,3 @@
-import { useUsers } from "../../../context/UsersContext";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { handleSearch } from "../usersSlice";
 

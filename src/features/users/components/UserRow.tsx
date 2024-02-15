@@ -1,4 +1,3 @@
-import { useUsers } from "../../../context/UsersContext";
 import { useAppDispatch } from "../../../hooks";
 import { fetchPostByUserId } from "../../posts/postsSlice";
 import { User } from "../types";

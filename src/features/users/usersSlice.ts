@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUsers } from "./api/getUser";
-import { Post, User } from "./types";
+import { User } from "./types";
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   return await getUsers();

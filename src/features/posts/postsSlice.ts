@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getPostsByUserId } from "./api/getPostsByUserId";
-import { Post } from "../users/types";
+import { Post } from "../posts/types";
 
 export const fetchPostByUserId = createAsyncThunk(
   "posts/fetchPostByUserId",
