@@ -1,12 +1,10 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { UsersTable } from "./features/users/components/UsersTable";
+import { Users } from "./features/users/components/Users";
 
 function App() {
   return (
     <div className="container">
-      <UsersTable />
+      <Users />
     </div>
   );
 }

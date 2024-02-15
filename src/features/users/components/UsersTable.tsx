@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useUsers } from "../../../context/UsersContex";
+import { useUsers } from "../../../context/UsersContext";
 import { getUsers } from "../api/getUser";
 import { UserRow } from "./UserRow";
-import "./UsersTable.css";
+import "./Users.css";
 
 export function UsersTable() {
   const { users, setUsers, isLoading, setIsLoading, error, setError } =

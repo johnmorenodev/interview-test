@@ -22,3 +22,14 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #e0e0e0;
 }
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.search-label {
+  font-size: 22px;
+  font-weight: bold;
+}

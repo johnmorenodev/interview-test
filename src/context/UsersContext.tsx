@@ -14,6 +14,7 @@ interface UserContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   error: string;
   setError: Dispatch<SetStateAction<string>>;
+  handleSearch: (s: string) => void;
 }
 
 const INITIAL_USER_CONTEXT = {
@@ -23,6 +24,7 @@ const INITIAL_USER_CONTEXT = {
   setIsLoading: () => {},
   error: "",
   setError: () => {},
+  handleSearch: () => {},
 };
 const UserContext = createContext<UserContext>(INITIAL_USER_CONTEXT);
 
@@ -34,9 +36,28 @@ export const UserContextProvider = ({
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  function handleSearch(searchQuery: string) {
+    setSearchQuery(searchQuery);
+  }
+
+  const filteredUsers = searchQuery
+    ? users.filter((user) =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : users;
   return (
     <UserContext.Provider
-      value={{ users, setUsers, isLoading, setIsLoading, error, setError }}
+      value={{
+        users: filteredUsers,
+        setUsers,
+        isLoading,
+        setIsLoading,
+        error,
+        setError,
+        handleSearch,
+      }}
     >
       {children}
     </UserContext.Provider>
