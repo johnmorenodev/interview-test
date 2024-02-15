@@ -20,16 +20,20 @@ export function UsersTable() {
 
   return (
     <table>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>City</th>
-        <th>Company</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>City</th>
+          <th>Company</th>
+        </tr>
+      </thead>
       {users.length === 0 && <p>No users found</p>}
-      {users?.map((user) => {
-        return <UserRow user={user} key={user.id} />;
-      })}
+      <tbody>
+        {users?.map((user) => {
+          return <UserRow user={user} key={user.id} />;
+        })}
+      </tbody>
     </table>
   );
 }
