@@ -14,7 +14,7 @@ export function UserSelected() {
 
   if (postError) {
     return (
-      <div>
+      <div data-testid="post-error">
         <p>Error: {postError}</p>
       </div>
     );
@@ -22,15 +22,20 @@ export function UserSelected() {
 
   return (
     <div>
-      <p className="posts">
+      <p className="posts" data-testid="user-selected">
         {selectedUser ? `Posts of ${selectedUser}` : "No user selected"}
       </p>
       <div>
-        {selectedUser && userPosts?.length === 0 && <p>No User Posts Found</p>}
-        {userPosts?.length > 0 &&
-          userPosts.map((post) => {
-            return <UserPostCard post={post} key={post.id} />;
-          })}
+        {selectedUser && userPosts?.length === 0 && (
+          <p data-testid="user-posts-empty">No User Posts Found</p>
+        )}
+        {userPosts?.length > 0 && (
+          <div data-testid="user-posts">
+            {userPosts.map((post) => {
+              return <UserPostCard post={post} key={post.id} />;
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
