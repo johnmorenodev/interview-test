@@ -5,7 +5,8 @@ import {
   useContext,
   useState,
 } from "react";
-import { User } from "../features/types";
+import { Post, User } from "../features/types";
+import { API_URL } from "../config";
 
 interface UserContext {
   users: User[];
@@ -15,6 +16,8 @@ interface UserContext {
   error: string;
   setError: Dispatch<SetStateAction<string>>;
   handleSearch: (s: string) => void;
+  handleSelectUser: (id: number) => void;
+  userPosts: Post[];
 }
 
 const INITIAL_USER_CONTEXT = {
@@ -25,6 +28,8 @@ const INITIAL_USER_CONTEXT = {
   error: "",
   setError: () => {},
   handleSearch: () => {},
+  handleSelectUser: () => {},
+  userPosts: [],
 };
 const UserContext = createContext<UserContext>(INITIAL_USER_CONTEXT);
 
@@ -37,9 +42,17 @@ export const UserContextProvider = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
 
   function handleSearch(searchQuery: string) {
     setSearchQuery(searchQuery);
+  }
+
+  async function handleSelectUser(id: number) {
+    const res = await fetch(`${API_URL}/posts?userId=${id}`);
+    const userPosts = await res.json();
+
+    setUserPosts(userPosts);
   }
 
   const filteredUsers = searchQuery
@@ -57,6 +70,8 @@ export const UserContextProvider = ({
         error,
         setError,
         handleSearch,
+        handleSelectUser,
+        userPosts,
       }}
     >
       {children}
