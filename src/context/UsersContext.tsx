@@ -3,10 +3,12 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { Post, User } from "../features/types";
 import { API_URL } from "../config";
+import { getUsers } from "../features/users/api/getUser";
 
 interface UserContext {
   users: User[];
@@ -18,6 +20,7 @@ interface UserContext {
   handleSearch: (s: string) => void;
   handleSelectUser: (id: number) => void;
   userPosts: Post[];
+  selectedUser: string | null;
 }
 
 const INITIAL_USER_CONTEXT = {
@@ -30,6 +33,7 @@ const INITIAL_USER_CONTEXT = {
   handleSearch: () => {},
   handleSelectUser: () => {},
   userPosts: [],
+  selectedUser: null,
 };
 const UserContext = createContext<UserContext>(INITIAL_USER_CONTEXT);
 
@@ -44,6 +48,26 @@ export const UserContextProvider = ({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [userPosts, setUserPosts] = useState<Post[]>([]);
 
+  const selectedUser =
+    userPosts?.length > 0 ? getSelectedUser(userPosts[0].userId, users) : null;
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await getUsers();
+        setUsers(users);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        if (error instanceof Error) {
+          setError(error.message);
+        }
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   function handleSearch(searchQuery: string) {
     setSearchQuery(searchQuery);
   }
@@ -55,6 +79,12 @@ export const UserContextProvider = ({
     setUserPosts(userPosts);
   }
 
+  function getSelectedUser(userId: number, users: User[]) {
+    const user = users.find((user) => user.id === userId);
+    return user ? user.name : null;
+  }
+
+  //filter users list based on search query
   const filteredUsers = searchQuery
     ? users.filter((user) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -72,6 +102,7 @@ export const UserContextProvider = ({
         handleSearch,
         handleSelectUser,
         userPosts,
+        selectedUser,
       }}
     >
       {children}

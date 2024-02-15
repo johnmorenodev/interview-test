@@ -50,3 +50,8 @@ tr:hover {
 .post-body {
   font-style: italic;
 }
+
+.posts {
+  font-size: 22px;
+  font-weight: bold;
+}

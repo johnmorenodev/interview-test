@@ -1,22 +1,19 @@
 import { useUsers } from "../../../context/UsersContext";
+import { UserPostCard } from "./UserPostCard";
 
 export function UserSelected() {
-  const { userPosts } = useUsers();
+  const { userPosts, selectedUser } = useUsers();
 
   return (
     <div>
-      <p className="posts">User Posts</p>
+      <p className="posts">
+        {selectedUser ? `Posts of ${selectedUser}` : "No user selected"}
+      </p>
       <div>
-        {userPosts?.length === 0 && <p>No User Posts Found</p>}
+        {selectedUser && userPosts?.length === 0 && <p>No User Posts Found</p>}
         {userPosts?.length > 0 &&
           userPosts.map((post) => {
-            return (
-              <div className="post-card" key={post.id}>
-                <p className="post-id">Id: {post.id}</p>
-                <p className="post-title">Title: {post.title}</p>
-                <p className="post-body">Body: {post.body}</p>
-              </div>
-            );
+            return <UserPostCard post={post} key={post.id} />;
           })}
       </div>
     </div>

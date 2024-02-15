@@ -1,29 +1,9 @@
-import { useEffect } from "react";
 import { useUsers } from "../../../context/UsersContext";
-import { getUsers } from "../api/getUser";
 import { UserRow } from "./UserRow";
 import "./Users.css";
 
 export function UsersTable() {
-  const { users, setUsers, isLoading, setIsLoading, error, setError } =
-    useUsers();
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await getUsers();
-        setUsers(users);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        if (error instanceof Error) {
-          setError(error.message);
-        }
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  const { users, isLoading, error } = useUsers();
 
   if (error) {
     return (
@@ -46,6 +26,7 @@ export function UsersTable() {
         <th>City</th>
         <th>Company</th>
       </tr>
+      {users.length === 0 && <p>No users found</p>}
       {users?.map((user) => {
         return <UserRow user={user} key={user.id} />;
       })}
