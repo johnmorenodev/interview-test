@@ -2,7 +2,23 @@ import { useUsers } from "../../../context/UsersContext";
 import { UserPostCard } from "./UserPostCard";
 
 export function UserSelected() {
-  const { userPosts, selectedUser } = useUsers();
+  const { userPosts, selectedUser, isPostLoading, postError } = useUsers();
+
+  if (isPostLoading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (postError) {
+    return (
+      <div>
+        <p>Error: {postError}</p>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -7,9 +7,8 @@ import {
   useState,
 } from "react";
 import { Post, User } from "../features/types";
-import { API_URL } from "../config";
-import { getUsers } from "../features/users/api/getUser";
 import { getPostsByUserId } from "../features/users/api/getPostsByUserId";
+import { getUsers } from "../features/users/api/getUser";
 
 interface UserContext {
   users: User[];
@@ -22,6 +21,8 @@ interface UserContext {
   handleSelectUser: (id: number) => void;
   userPosts: Post[];
   selectedUser: string | null;
+  isPostLoading: boolean;
+  postError: string;
 }
 
 const INITIAL_USER_CONTEXT = {
@@ -35,6 +36,8 @@ const INITIAL_USER_CONTEXT = {
   handleSelectUser: () => {},
   userPosts: [],
   selectedUser: null,
+  isPostLoading: false,
+  postError: "",
 };
 const UserContext = createContext<UserContext>(INITIAL_USER_CONTEXT);
 
@@ -48,6 +51,8 @@ export const UserContextProvider = ({
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [isPostLoading, setIsPostLoading] = useState<boolean>(false);
+  const [postError, setPostError] = useState<string>("");
 
   const selectedUser =
     userPosts?.length > 0 ? getSelectedUser(userPosts[0].userId, users) : null;
@@ -75,10 +80,16 @@ export const UserContextProvider = ({
 
   async function handleSelectUser(id: number) {
     try {
+      setIsPostLoading(true);
       const posts = await getPostsByUserId(id);
       setUserPosts(posts);
+      setIsPostLoading(false);
     } catch (error) {
+      if (error instanceof Error) {
+        setPostError(error.message);
+      }
       console.log("Error:", error);
+      setIsPostLoading(false);
     }
   }
 
@@ -106,6 +117,8 @@ export const UserContextProvider = ({
         handleSelectUser,
         userPosts,
         selectedUser,
+        postError,
+        isPostLoading,
       }}
     >
       {children}
