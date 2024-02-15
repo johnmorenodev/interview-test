@@ -9,6 +9,7 @@ import {
 import { Post, User } from "../features/types";
 import { API_URL } from "../config";
 import { getUsers } from "../features/users/api/getUser";
+import { getPostsByUserId } from "../features/users/api/getPostsByUserId";
 
 interface UserContext {
   users: User[];
@@ -73,10 +74,12 @@ export const UserContextProvider = ({
   }
 
   async function handleSelectUser(id: number) {
-    const res = await fetch(`${API_URL}/posts?userId=${id}`);
-    const userPosts = await res.json();
-
-    setUserPosts(userPosts);
+    try {
+      const posts = await getPostsByUserId(id);
+      setUserPosts(posts);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   }
 
   function getSelectedUser(userId: number, users: User[]) {
