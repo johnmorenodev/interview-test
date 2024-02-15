@@ -1,21 +1,22 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { INITIAL_USER_CONTEXT } from "../../../context/UsersContext";
 import { UserSearch } from "../components/UserSearch";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 
-import { useUsers } from "../../../context/UsersContext";
-
-jest.mock("../../../context/UsersContext", () => ({
-  useUsers: jest.fn(),
+jest.mock("../../../hooks/index.ts", () => ({
+  useAppSelector: jest.fn(),
+  useAppDispatch: jest.fn(),
 }));
 
-export const useUsersMock = jest.mocked(useUsers);
+const mockedUseSelector = jest.mocked(useAppSelector);
+const mockUseDispatch = jest.mocked(useAppDispatch);
 
 describe("Search Component", () => {
   test("loads and displays the search input", async () => {
-    useUsersMock.mockImplementation(() => {
+    mockedUseSelector.mockImplementation(() => {
       return {
-        ...INITIAL_USER_CONTEXT,
+        isLoading: false,
+        error: "",
       };
     });
     render(<UserSearch />);
@@ -24,15 +25,16 @@ describe("Search Component", () => {
   });
 
   test("call handleSearch function when changing input value", async () => {
-    const handleSearchMock = jest.fn();
-
-    useUsersMock.mockImplementation(() => {
+    mockedUseSelector.mockImplementation(() => {
       return {
-        ...INITIAL_USER_CONTEXT,
         isLoading: false,
         error: "",
-        handleSearch: handleSearchMock,
       };
+    });
+
+    const mockedDispatch = jest.fn();
+    mockUseDispatch.mockImplementation(() => {
+      return mockedDispatch;
     });
 
     render(<UserSearch />);
@@ -45,16 +47,17 @@ describe("Search Component", () => {
 
     expect(screen.getByLabelText("Search User:")).toBeInTheDocument();
     expect(screen.getByTestId("search-input")).toHaveValue("test");
-    expect(handleSearchMock).toHaveBeenCalled();
+    expect(mockUseDispatch).toHaveBeenCalled();
   });
 
   test("disables input when loading", async () => {
-    useUsersMock.mockImplementation(() => {
+    mockedUseSelector.mockImplementation(() => {
       return {
-        ...INITIAL_USER_CONTEXT,
         isLoading: true,
+        error: "",
       };
     });
+
     render(<UserSearch />);
 
     expect(screen.getByLabelText("Search User:")).toBeInTheDocument();

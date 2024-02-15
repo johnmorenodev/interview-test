@@ -9,10 +9,6 @@ export function UsersTable() {
   const user = useAppSelector((state) => state.user);
   const { error, isLoading, users, searchQuery } = user;
 
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
@@ -29,6 +25,10 @@ export function UsersTable() {
     //display some sort of loading screen while fetching
     return <p>Loading...</p>;
   }
+
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>

@@ -4,6 +4,7 @@ import { PostCard } from "./PostCard";
 export function Posts() {
   const post = useAppSelector((state) => state.post);
   const { isLoading, error, posts } = post;
+
   if (isLoading) {
     return (
       <div>
@@ -23,7 +24,7 @@ export function Posts() {
   return (
     <div>
       <p className="posts" data-testid="user-selected">
-        {posts.length > 0 ? `Posts: ` : "No user selected"}
+        {posts?.length > 0 ? `Posts: ` : "No user selected"}
       </p>
       <div>
         {posts?.length > 0 && (
