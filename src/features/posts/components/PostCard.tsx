@@ -1,6 +1,6 @@
-import { Post } from "../types";
+import { Post } from "../../users/types";
 
-export function UserPostCard({ post }: { post: Post }) {
+export function PostCard({ post }: { post: Post }) {
   return (
     <div className="post-card">
       <p className="post-id">Id: {post.id}</p>

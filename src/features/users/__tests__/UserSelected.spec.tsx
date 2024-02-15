@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { INITIAL_USER_CONTEXT, useUsers } from "../../../context/UsersContext";
-import { UserSelected } from "../components/UserSelected";
+import { Posts } from "../../posts/components/Posts";
 
 jest.mock("../../../context/UsersContext", () => ({
   useUsers: jest.fn(),
@@ -17,7 +17,7 @@ describe("User Posts", () => {
         isPostLoading: true,
       };
     });
-    render(<UserSelected />);
+    render(<Posts />);
 
     expect(screen.getByText("Loading...")).toBeInTheDocument();
     expect(screen.queryByTestId("user-posts")).not.toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("User Posts", () => {
         postError: "Error",
       };
     });
-    render(<UserSelected />);
+    render(<Posts />);
 
     expect(screen.getByTestId("post-error")).toBeInTheDocument();
     expect(screen.queryByTestId("user-posts")).not.toBeInTheDocument();
@@ -74,7 +74,7 @@ describe("User Posts", () => {
         selectedUser: "Leanne Graham",
       };
     });
-    render(<UserSelected />);
+    render(<Posts />);
 
     expect(screen.getByTestId("user-selected")).toBeInTheDocument();
     expect(screen.getByTestId("user-selected")).toHaveTextContent(
@@ -90,7 +90,7 @@ describe("User Posts", () => {
         selectedUser: null,
       };
     });
-    render(<UserSelected />);
+    render(<Posts />);
 
     expect(screen.getByTestId("user-selected")).toBeInTheDocument();
     expect(screen.getByTestId("user-selected")).toHaveTextContent(

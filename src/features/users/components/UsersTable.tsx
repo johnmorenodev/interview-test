@@ -1,9 +1,21 @@
-import { useUsers } from "../../../context/UsersContext";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { fetchUsers } from "../usersSlice";
 import { UserRow } from "./UserRow";
 import "./Users.css";
 
 export function UsersTable() {
-  const { users, isLoading, error } = useUsers();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+  const { error, isLoading, users, searchQuery } = user;
+
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
 
   if (error) {
     return (
@@ -31,12 +43,12 @@ export function UsersTable() {
         </thead>
 
         <tbody>
-          {users?.map((user) => {
+          {filteredUsers?.map((user: any) => {
             return <UserRow user={user} key={user.id} />;
           })}
         </tbody>
       </table>
-      {users.length === 0 && <p>No users found</p>}
+      {filteredUsers.length === 0 && <p>No users found</p>}
     </>
   );
 }

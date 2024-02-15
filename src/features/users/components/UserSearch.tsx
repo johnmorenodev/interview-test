@@ -1,7 +1,12 @@
 import { useUsers } from "../../../context/UsersContext";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { handleSearch } from "../usersSlice";
 
 export function UserSearch() {
-  const { handleSearch, isLoading, error } = useUsers();
+  const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const { isLoading, error } = user;
   return (
     <div>
       <label
@@ -17,7 +22,7 @@ export function UserSearch() {
         className="search-input"
         id="search"
         type="search"
-        onChange={(e) => handleSearch(e.target.value)}
+        onChange={(e) => dispatch(handleSearch(e.target.value))}
       />
     </div>
   );

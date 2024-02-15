@@ -1,5 +1,4 @@
 import { UserSearch } from "./UserSearch";
-import { UserSelected } from "./UserSelected";
 import { UsersTable } from "./UsersTable";
 
 export function Users() {
@@ -7,7 +6,6 @@ export function Users() {
     <div>
       <UserSearch />
       <UsersTable />
-      <UserSelected />
     </div>
   );
 }

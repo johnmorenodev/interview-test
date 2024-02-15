@@ -1,5 +1,5 @@
 import { API_URL } from "../../../config";
-import { Post } from "../types";
+import { Post } from "../../users/types";
 
 export async function getPostsByUserId(userId: number): Promise<Post[]> {
   const res = await fetch(`${API_URL}/posts?userId=${userId}`);

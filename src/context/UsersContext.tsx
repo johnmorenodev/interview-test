@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { Post, User } from "../features/users/types";
-import { getPostsByUserId } from "../features/users/api/getPostsByUserId";
+import { getPostsByUserId } from "../features/posts/api/getPostsByUserId";
 import { getUsers } from "../features/users/api/getUser";
 
 interface UserContext {
