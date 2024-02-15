@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../../hooks";
 import { PostCard } from "./PostCard";
+import "./Posts.css";
 
 export function Posts() {
   const post = useAppSelector((state) => state.post);

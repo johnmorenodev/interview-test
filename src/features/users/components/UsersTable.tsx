@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { fetchUsers } from "../usersSlice";
 import { UserRow } from "./UserRow";
-import "./Users.css";
 
 export function UsersTable() {
   const dispatch = useAppDispatch();
